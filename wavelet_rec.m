@@ -10,9 +10,9 @@ g0=g0(length(g0):-1:1);
 %% Apply wavelet reconstruction on the vertical part of the image
 % Then apply the wavelet reconstruction on the horizontal part of the result
 
-for div = J:-1:1
-    row = size(wc, 1)/(div);
-    col = size(wc, 2)/(div);
+for pow = J-1:-1:0
+    row = size(wc, 1)/(2^pow);
+    col = size(wc, 2)/(2^pow);
     wc_level = wc(1:row, 1:col);
 
     rec_vert = zeros(row, col);
@@ -20,13 +20,10 @@ for div = J:-1:1
         wc_col = wc_level(:, j);
         
         % Upsampling
-%         wc_col_lf = wc_col(1:row/2);
-%         wc_col_lf=zeros(1,2*length(wc_col_lf));
         wc_col_lf = zeros(row, 1); %Build array of zeros
         wc_col_lf(1:2:length(wc_col_lf)) = wc_col(1:row/2); %Fill 1/2 with values from coeff
         % Inverse Lowpass filtering
-%         s111=pconv(h0,fliplr(s11)); %fliplr is the reverse process
-        wc_col_lf = pconv(h0,fliplr(wc_col_lf'))';
+        wc_col_lf = pconv(h0,fliplr(wc_col_lf'))'; %fliplr is the reverse process
 
         % Upsampling
         wc_col_hf=zeros(row, 1);

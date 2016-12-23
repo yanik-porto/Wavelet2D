@@ -44,14 +44,14 @@ for k = 1:J
         im_col = sd1_horiz(:,j);
 
         % Lowpass filtering
-        im_col_lf=pconv(h0,im_col')'; %Periodic convolution
+        im_col_lf = pconv(h0,im_col')'; %Periodic convolution
         % Downsampling
         sd1_vert(1:row/2,j) = im_col_lf(1:2:length(im_col_lf)); 
 
         % Highpass filtering
-        im_col_hf=pconv(g0,im_col')';
+        im_col_hf = pconv(g0,im_col')';
         % Downsampling
-        sd1_vert(row/2+1:row,j)=im_col_hf(1:2:length(im_col_hf));
+        sd1_vert(row/2+1:row,j) = im_col_hf(1:2:length(im_col_hf));
     end
 
     %Save the result of the level
